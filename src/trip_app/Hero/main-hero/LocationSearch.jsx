@@ -1,10 +1,7 @@
 import { useState } from "react";
-import InputOffcanvas from "@/trip_app/components/InputOffcanvas";
 
 const SearchBar = ({ cName, placeholder }) => {
   const [searchValue, setSearchValue] = useState("");
-
-  const [isInputbarOpen, setIsInputbarOpen] = useState(false);
 
   return (
     <>
@@ -25,16 +22,9 @@ const SearchBar = ({ cName, placeholder }) => {
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </div>
-        </div>
+      </div>
         {/* End location Field */}
       </div>
-      {isInputbarOpen && (
-        <>
-          <div className="shadow-2 dropdown-menu min-width-400">
-            <InputOffcanvas />
-          </div>
-        </>
-      )}
     </>
   );
 };
