@@ -2,9 +2,9 @@ import MainFilterSearchBox from "./MainFilterSearchBox";
 
 const index = () => {
   return (
-    <section className="masthead -type-1 z-5">
+    <section className="masthead -type-3 z-5">
       <div className="masthead__bg">
-        <img alt="image" src="/img/masthead/1/bg.webp" className="js-lazy" />
+        <img alt="image" src="/img/masthead/3/bg.png" className="js-lazy" />
       </div>
       <div className="container">
         <div className="row justify-center">
@@ -14,7 +14,7 @@ const index = () => {
                 className="text-60 lg:text-40 md:text-30 text-white"
                 data-aos="fade-up"
               >
-                Find Next Place To Visit
+                Discover Your World
               </h1>
               <p
                 className="text-white mt-6 md:mt-10"
@@ -27,7 +27,7 @@ const index = () => {
             {/* End hero title */}
 
             <div
-              className="tabs -underline mt-60 js-tabs"
+              className="masthead__tabs"
               data-aos="fade-up"
               data-aos-delay="200"
             >

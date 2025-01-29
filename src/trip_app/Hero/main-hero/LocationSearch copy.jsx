@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const SearchBar = ({cName, placeholder }) => {
+const SearchBar = ({ cName, placeholder }) => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
