@@ -1,8 +1,9 @@
 import DateSearch from "../DateSearch";
 import LocationSearch from "./LocationSearch";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TimeSearch from "../TimeSearch";
+import { useSelector } from "react-redux";
 
 const MainFilterSearchBox = () => {
   const navigate = useNavigate();
@@ -39,6 +40,27 @@ const MainFilterSearchBox = () => {
       setAirportCurrentTab(subtype);
     }
   };
+
+  const inputBoxState = useSelector((state) => state.inputBox);
+
+  const initialValues= {
+    from: '',
+    to: '',
+    
+  }
+  const [values, setValues] = useState(initialValues);
+  useEffect(() => {
+    if (inputBoxState) {
+     if(inputBoxState.value){
+      setValues((prev)=> ({
+        ...prev,
+        [inputBoxState?.cName]: inputBoxState?.value
+      }))
+     }
+    }
+    
+    }, [inputBoxState]);
+
   return (
     <>
       <div className="tabs -bookmark js-tabs">
@@ -80,9 +102,9 @@ const MainFilterSearchBox = () => {
                     ))}
                   </div>
                 </div>
-                <LocationSearch cName="FROM" placeholder="Select City" />
+                <LocationSearch cName="from" placeholder="Select City" value={values.from} />
 
-                <LocationSearch cName="TO" placeholder="Select City" />
+                <LocationSearch cName="to" placeholder="Select City" value={values.to} />
 
                 <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
@@ -129,7 +151,9 @@ const MainFilterSearchBox = () => {
                 <LocationSearch cName="AIRPORT" placeholder="Select City" />
 
                 <LocationSearch
-                  cName={`${airportCurrentTab == "PICKUP" ? "DROP" : "PICKUP"} ADDRESS`}
+                  cName={`${
+                    airportCurrentTab == "PICKUP" ? "DROP" : "PICKUP"
+                  } ADDRESS`}
                   placeholder="Select Your Location"
                 />
 
@@ -152,7 +176,7 @@ const MainFilterSearchBox = () => {
             <div className="button-item">
               <button
                 className="mainSearch__submit button -dark-1 py-15 px-35 h-60 col-12 rounded-4 bg-blue-1 text-white"
-                onClick={() => navigate("/hotel-list-v3")}
+                onClick={() => navigate("/trip_app/car-list-v3")}
               >
                 <i className="icon-search text-20 mr-10" />
                 Search
@@ -161,6 +185,7 @@ const MainFilterSearchBox = () => {
           </div>
         </div>
       </div>
+
     </>
   );
 };

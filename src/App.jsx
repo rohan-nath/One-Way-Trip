@@ -78,7 +78,9 @@ import CruiseSingleV1Dynamic from "./pages/cruise/cruise-single";
 import FlightListPage1 from "./pages/flight/flight-list-v1";
 import Contact from "./pages/others/contact";
 import Destinations from "./pages/others/destinations";
-import TripApp from "./trip_app/Home"
+import TripApp from "./trip_app/pages/Home"
+import TripAppCarList from "./trip_app/pages/CarList";
+
 
 function App() {
   useEffect(() => {
@@ -105,7 +107,11 @@ function App() {
               <Route path="home_8" element={<Home_8 />} />
               <Route path="home_9" element={<Home_9 />} />
               <Route path="home_10" element={<Home_10 />} />
-              <Route path="trip_app" element={<TripApp />} />
+
+              <Route path="/trip_app">
+                <Route index element={<TripApp />} />
+              <Route path="car-list-v3" element={<TripAppCarList />} />
+              </Route>
 
               <Route path="blog-list-v1" element={<BlogListV1 />} />
               <Route path="blog-list-v2" element={<BlogListV2 />} />

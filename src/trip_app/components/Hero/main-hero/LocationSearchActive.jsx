@@ -1,8 +1,12 @@
+import { setInputSelectedValue } from "@/features/input-box/inputBoxSlice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const SearchBar = ({ cName, placeholder }) => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const dispatch = useDispatch();
 
   const locationSearchContent = [
     {
@@ -35,6 +39,7 @@ const SearchBar = ({ cName, placeholder }) => {
   const handleOptionClick = (item) => {
     setSearchValue(item.name);
     setSelectedItem(item);
+    dispatch(setInputSelectedValue({ value: item.name, isFullScreen: false }));
   };
 
   return (
@@ -45,7 +50,7 @@ const SearchBar = ({ cName, placeholder }) => {
           data-bs-auto-close="true"
           data-bs-offset="0,22"
         >
-          <h4 className="text-15 fw-500 ls-2 lh-16">{cName}</h4>
+          <h4 className="text-15 fw-500 ls-2 lh-16">{cName.toUpperCase()}</h4>
           <div className="text-15 text-light-1 ls-2 lh-16">
             <input
               autoComplete="off"
@@ -53,6 +58,7 @@ const SearchBar = ({ cName, placeholder }) => {
               placeholder={placeholder}
               className="js-search js-dd-focus"
               value={searchValue}
+              autoFocus
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </div>
