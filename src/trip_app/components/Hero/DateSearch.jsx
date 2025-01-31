@@ -1,5 +1,7 @@
+import { setInputSelectedValue } from "@/features/input-box/inputBoxSlice";
 import React, { useState } from "react";
 import DatePicker, { DateObject } from "react-multi-date-picker";
+import { useDispatch } from "react-redux";
 
 const DateSearch = () => {
   // const [dates, setDates] = useState([
@@ -11,9 +13,14 @@ const DateSearch = () => {
   //   new DateObject().setDay(5),
   //   new DateObject().setDay(14).add(1, "month"),
   // ]);
+  const dispatch = useDispatch();
 
   const [dates, setDates] = useState(new Date());
 
+  const handleClick = (e) => {
+    setDates(e);
+      dispatch(setInputSelectedValue({ value: e.format("MMMM DD YYYY"), isFullScreen: false }));
+    };
 
   return (
     <div className="text-15 text-light-1 ls-2 lh-16 custom_dual_datepicker">
@@ -21,7 +28,7 @@ const DateSearch = () => {
         inputClass="custom_input-picker"
         containerClassName="custom_container-picker"
         value={dates}
-        onChange={setDates}
+        onChange={handleClick}
         offsetY={10}
         // range
         // rangeHover

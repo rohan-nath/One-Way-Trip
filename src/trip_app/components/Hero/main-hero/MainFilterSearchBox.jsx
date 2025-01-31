@@ -43,23 +43,28 @@ const MainFilterSearchBox = () => {
 
   const inputBoxState = useSelector((state) => state.inputBox);
 
-  const initialValues= {
-    from: '',
-    to: '',
-    
-  }
+  const initialValues = {
+    from: "",
+    to: "",
+    sdate: "",
+    rdate: "",
+    airdate: "",
+    stime: "",
+    airtime: "",
+  };
   const [values, setValues] = useState(initialValues);
   useEffect(() => {
     if (inputBoxState) {
-     if(inputBoxState.value){
-      setValues((prev)=> ({
-        ...prev,
-        [inputBoxState?.cName]: inputBoxState?.value
-      }))
-     }
+      if (inputBoxState.value) {
+        setValues((prev) => ({
+          ...prev,
+          [inputBoxState?.valueKey]: inputBoxState?.value,
+        }));
+      }
     }
-    
-    }, [inputBoxState]);
+
+    console.log("values", values);
+  }, [inputBoxState]);
 
   return (
     <>
@@ -102,31 +107,60 @@ const MainFilterSearchBox = () => {
                     ))}
                   </div>
                 </div>
-                <LocationSearch cName="from" placeholder="Select City" value={values.from} />
+                <LocationSearch
+                  cName="FROM"
+                  valueKey="from"
+                  placeholder="Select City"
+                  value={values.from}
+                />
 
-                <LocationSearch cName="to" placeholder="Select City" value={values.to} />
+                <LocationSearch
+                  cName="TO"
+                  valueKey="to"
+                  placeholder="Select City"
+                  value={values.to}
+                />
 
-                <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                <LocationSearch
+                  cName="DATE"
+                  placeholder="Select Date"
+                  valueKey="sdate"
+                  value={values.sdate}
+                />
+                {/* <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
                     <h4 className="text-15 fw-500 ls-2 lh-16">Date</h4>
                     <DateSearch />
                   </div>
-                </div>
+                </div> */}
 
-                <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                <LocationSearch
+                  cName="PICK UP TIME"
+                  placeholder="Select Time"
+                  valueKey="stime"
+                  value={values.stime}
+                />
+
+                {/* <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
                     <h4 className="text-15 fw-500 ls-2 lh-16">Pick Up Time </h4>
                     <TimeSearch />
                   </div>
-                </div>
+                </div> */}
 
                 {outStationCurrentTab == "ROUNDWAY" && (
-                  <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-                    <div>
-                      <h4 className="text-15 fw-500 ls-2 lh-16">Return Date</h4>
-                      <DateSearch />
-                    </div>
-                  </div>
+                  <LocationSearch
+                    cName="RETURN DATE"
+                    placeholder="Select Date"
+                    valueKey="rdate"
+                    value={values.rdate}
+                  />
+                  // <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                  //   <div>
+                  //     <h4 className="text-15 fw-500 ls-2 lh-16">Return Date</h4>
+                  //     <DateSearch />
+                  //   </div>
+                  // </div>
                 )}
               </>
             ) : (
@@ -148,28 +182,47 @@ const MainFilterSearchBox = () => {
                     ))}
                   </div>
                 </div>
-                <LocationSearch cName="AIRPORT" placeholder="Select City" />
+                <LocationSearch
+                  cName="AIRPORT"
+                  placeholder="Select City"
+                  valueKey="aircity"
+                  value={values.aircity}
+                />
 
                 <LocationSearch
                   cName={`${
                     airportCurrentTab == "PICKUP" ? "DROP" : "PICKUP"
                   } ADDRESS`}
                   placeholder="Select Your Location"
+                  valueKey="airlocation"
+                  value={values.airlocation}
                 />
 
-                <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                {/* <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
                     <h4 className="text-15 fw-500 ls-2 lh-16">Date</h4>
                     <DateSearch />
                   </div>
-                </div>
+                </div> */}
 
-                <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                <LocationSearch
+                  cName="DATE"
+                  placeholder="Select Date"
+                  valueKey="airdate"
+                  value={values.airdate}
+                />
+                {/* <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
                     <h4 className="text-15 fw-500 ls-2 lh-16"> Time </h4>
                     <TimeSearch />
                   </div>
-                </div>
+                </div> */}
+                 <LocationSearch
+                  cName="Time"
+                  placeholder="Select Time"
+                  valueKey="airtime"
+                  value={values.airtime}
+                />
               </>
             )}
 
@@ -185,7 +238,6 @@ const MainFilterSearchBox = () => {
           </div>
         </div>
       </div>
-
     </>
   );
 };

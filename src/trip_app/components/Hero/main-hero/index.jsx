@@ -3,15 +3,17 @@ import MainFilterSearchBox from "./MainFilterSearchBox";
 import { useEffect } from "react";
 import { closeFullScreen } from "@/features/input-box/inputBoxSlice";
 import LocationSearch from "./LocationSearchActive";
+import DateSearch from "../DateSearch";
+import TimeSearch from "../TimeSearch";
 
 const index = () => {
   const dispatch = useDispatch();
 
   const inputBoxState = useSelector((state) => state.inputBox);
 
-  // useEffect(() => {
-  //   console.log('inputBoxState', inputBoxState);
-  // }, [inputBoxState])
+  useEffect(() => {
+    console.log("inputBoxState", inputBoxState);
+  }, [inputBoxState]);
   const handleClick = () => {
     dispatch(closeFullScreen());
   };
@@ -80,10 +82,37 @@ const index = () => {
             <div className="tabs__content js-tabs-content">
               <div className="mainSearch bg-white pr-20 py-20 lg:px-20 lg:pt-5 lg:pb-20 rounded-4">
                 <div className="button-grid items-center">
-                  <LocationSearch
-                    cName={inputBoxState.cName}
-                    placeholder={inputBoxState.placeholder}
-                  />
+                  {["to", "from", "aircity", "airlocation"].includes(
+                    inputBoxState?.valueKey
+                  ) ? (
+                    <LocationSearch
+                      cName={inputBoxState.cName}
+                      placeholder={inputBoxState.placeholder}
+                      valueKey={inputBoxState.valueKey}
+                    />
+                  ) : ["sdate", "rdate", "airdate"].includes(
+                      inputBoxState?.valueKey
+                    ) ? (
+                    <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                      <div>
+                        <h4 className="text-15 fw-500 ls-2 lh-16">
+                          {inputBoxState.cName}
+                        </h4>
+                        <DateSearch />
+                      </div>
+                    </div>
+                  ) : ["stime", "airtime"].includes(inputBoxState?.valueKey) ? (
+                    <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                      <div>
+                        <h4 className="text-15 fw-500 ls-2 lh-16">
+                         {inputBoxState.cName}
+                        </h4>
+                        <TimeSearch />
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>

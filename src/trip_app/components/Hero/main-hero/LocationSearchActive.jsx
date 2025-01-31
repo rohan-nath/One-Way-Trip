@@ -2,7 +2,7 @@ import { setInputSelectedValue } from "@/features/input-box/inputBoxSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-const SearchBar = ({ cName, placeholder }) => {
+const SearchBar = ({ cName, placeholder, valueKey }) => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -39,18 +39,18 @@ const SearchBar = ({ cName, placeholder }) => {
   const handleOptionClick = (item) => {
     setSearchValue(item.name);
     setSelectedItem(item);
-    dispatch(setInputSelectedValue({ value: item.name, isFullScreen: false }));
+    dispatch(setInputSelectedValue({ value: item.name, isFullScreen: false, valueKey }));
   };
 
   return (
     <>
-      <div className="searchMenu-loc px-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
+      <div className="searchMenu-loc px-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch border-bottom border-dark">
         <div
           data-bs-toggle="dropdown"
           data-bs-auto-close="true"
           data-bs-offset="0,22"
         >
-          <h4 className="text-15 fw-500 ls-2 lh-16">{cName.toUpperCase()}</h4>
+          <h4 className="text-15 fw-500 ls-2 lh-16">{cName}</h4>
           <div className="text-15 text-light-1 ls-2 lh-16">
             <input
               autoComplete="off"
@@ -58,7 +58,6 @@ const SearchBar = ({ cName, placeholder }) => {
               placeholder={placeholder}
               className="js-search js-dd-focus"
               value={searchValue}
-              autoFocus
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </div>

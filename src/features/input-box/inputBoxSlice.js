@@ -5,6 +5,7 @@ const initialState = {
   cName: "",
   placeholder: "",
   value: '',
+  valueKey: '',
 };
 
 export const inputBoxSlice = createSlice({
