@@ -3,8 +3,6 @@ import MainFilterSearchBox from "./MainFilterSearchBox";
 import { useEffect } from "react";
 import { closeFullScreen } from "@/features/input-box/inputBoxSlice";
 import LocationSearch from "./LocationSearchActive";
-import DateSearch from "../DateSearch";
-import TimeSearch from "../TimeSearch";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -82,51 +80,39 @@ const index = () => {
             <div className="tabs__content js-tabs-content">
               <div className="mainSearch bg-white pr-20 py-20 lg:px-20 lg:pt-5 lg:pb-20 rounded-4">
                 <div className="button-grid items-center">
-                  {["to", "from", "aircity", "airlocation"].includes(
-                    inputBoxState?.valueKey
-                  ) ? (
+                  {inputBoxState.isAirport ? (
+                    <>
                     <LocationSearch
-                      cName={inputBoxState.cName}
-                      placeholder={inputBoxState.placeholder}
-                      valueKey={inputBoxState.valueKey}
+                      cName="AIRPORT"
+                      placeholder="Select Airport"
+                      valueKey="aircity"
                     />
-                  ) : ["sdate", "rdate", "airdate"].includes(
-                      inputBoxState?.valueKey
-                    ) ? (
-                    <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-                      <div>
-                        <h4 className="text-15 fw-500 ls-2 lh-16">
-                          {inputBoxState.cName}
-                        </h4>
-                        <DateSearch />
-                      </div>
-                    </div>
-                  ) : ["stime", "airtime"].includes(inputBoxState?.valueKey) ? (
-                    <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-                      <div>
-                        <h4 className="text-15 fw-500 ls-2 lh-16">
-                         {inputBoxState.cName}
-                        </h4>
-                        <TimeSearch />
-                      </div>
-                    </div>
+
+                    <LocationSearch
+                      cName="ADDRESS"
+                      placeholder="Select Your Location"
+                      valueKey="airlocation"
+                    />
+                  </>
                   ) : (
-                    ""
+                    <>
+                      <LocationSearch
+                        cName="FROM"
+                        placeholder="Select City"
+                        valueKey="from"
+                      />
+
+                      <LocationSearch
+                        cName="TO"
+                        placeholder="Select City"
+                        valueKey="to"
+                      />
+                    </>
                   )}
                 </div>
               </div>
             </div>
           </div>
-          {/* <div className="tabs__content js-tabs-content">
-            <div className=":pt-5 lg:pb-20 roundemainSearch bg-white pr-20 py-20 lg:px-20 lgd-4">
-              <div className="button-grid items-center">
-                <LocationSearch
-                  cName={inputBoxState.cName}
-                  placeholder={inputBoxState.placeholder}
-                />
-              </div>
-            </div>
-          </div> */}
         </div>
       )}
     </>

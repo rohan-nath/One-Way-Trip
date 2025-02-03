@@ -2,10 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isFullScreen: false,
-  cName: "",
-  placeholder: "",
   value: '',
   valueKey: '',
+  isAirport: false
 };
 
 export const inputBoxSlice = createSlice({

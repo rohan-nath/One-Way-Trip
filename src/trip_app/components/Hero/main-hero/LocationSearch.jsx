@@ -6,8 +6,6 @@ const SearchBar = ({ cName,valueKey, placeholder, value = "" }) => {
 
   const handleClick = () => {
     const data = {
-      cName,
-      placeholder,
       valueKey,
       isFullScreen: true,
       value

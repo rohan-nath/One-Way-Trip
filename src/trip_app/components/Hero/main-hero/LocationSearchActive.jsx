@@ -39,7 +39,17 @@ const SearchBar = ({ cName, placeholder, valueKey }) => {
   const handleOptionClick = (item) => {
     setSearchValue(item.name);
     setSelectedItem(item);
-    dispatch(setInputSelectedValue({ value: item.name, isFullScreen: false, valueKey }));
+    if (['to', 'airlocation'].includes(valueKey)) {
+      dispatch(
+        setInputSelectedValue({
+          value: item.name,
+          isFullScreen: false,
+          valueKey,
+        })
+      );
+    } else {
+      dispatch(setInputSelectedValue({ value: item.name, valueKey }));
+    }
   };
 
   return (

@@ -3,10 +3,12 @@ import LocationSearch from "./LocationSearch";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TimeSearch from "../TimeSearch";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setInputSelectedValue } from "@/features/input-box/inputBoxSlice";
 
 const MainFilterSearchBox = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState("OUTSTATION");
   const tabs = [
     { id: 1, name: "OUTSTATION" },
@@ -17,6 +19,7 @@ const MainFilterSearchBox = () => {
     setCurrentTab(tabName);
     setAirportCurrentTab("PICKUP");
     setOutStationCurrentTab("ONEWAY");
+    dispatch(setInputSelectedValue({ isAirport: tabName == "AIRPORT" }));
   };
 
   const [outStationCurrentTab, setOutStationCurrentTab] = useState("ONEWAY");
@@ -56,15 +59,18 @@ const MainFilterSearchBox = () => {
   useEffect(() => {
     if (inputBoxState) {
       if (inputBoxState.value) {
+        debugger;
         setValues((prev) => ({
           ...prev,
           [inputBoxState?.valueKey]: inputBoxState?.value,
         }));
       }
     }
-
-    console.log("values", values);
   }, [inputBoxState]);
+
+  useEffect(() => {
+    console.log("values", values);
+  }, [values]);
 
   return (
     <>
@@ -121,46 +127,41 @@ const MainFilterSearchBox = () => {
                   value={values.to}
                 />
 
-                <LocationSearch
+                {/* <LocationSearch
                   cName="DATE"
                   placeholder="Select Date"
                   valueKey="sdate"
                   value={values.sdate}
-                />
-                {/* <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                /> */}
+                <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
                     <h4 className="text-15 fw-500 ls-2 lh-16">Date</h4>
-                    <DateSearch />
+                    <DateSearch valueKey="sdate" />
                   </div>
-                </div> */}
+                </div>
 
-                <LocationSearch
+                {/* <LocationSearch
                   cName="PICK UP TIME"
                   placeholder="Select Time"
                   valueKey="stime"
                   value={values.stime}
-                />
+                /> */}
 
-                {/* <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-                  <div>
-                    <h4 className="text-15 fw-500 ls-2 lh-16">Pick Up Time </h4>
-                    <TimeSearch />
-                  </div>
-                </div> */}
+                <TimeSearch cName="PICK UP TIME" valueKey="stime" />
 
                 {outStationCurrentTab == "ROUNDWAY" && (
-                  <LocationSearch
-                    cName="RETURN DATE"
-                    placeholder="Select Date"
-                    valueKey="rdate"
-                    value={values.rdate}
-                  />
-                  // <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-                  //   <div>
-                  //     <h4 className="text-15 fw-500 ls-2 lh-16">Return Date</h4>
-                  //     <DateSearch />
-                  //   </div>
-                  // </div>
+                  // <LocationSearch
+                  //   cName="RETURN DATE"
+                  //   placeholder="Select Date"
+                  //   valueKey="rdate"
+                  //   value={values.rdate}
+                  // />
+                  <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                    <div>
+                      <h4 className="text-15 fw-500 ls-2 lh-16">Return Date</h4>
+                      <DateSearch valueKey="rdate" />
+                    </div>
+                  </div>
                 )}
               </>
             ) : (
@@ -184,7 +185,7 @@ const MainFilterSearchBox = () => {
                 </div>
                 <LocationSearch
                   cName="AIRPORT"
-                  placeholder="Select City"
+                  placeholder="Select Airport"
                   valueKey="aircity"
                   value={values.aircity}
                 />
@@ -198,31 +199,31 @@ const MainFilterSearchBox = () => {
                   value={values.airlocation}
                 />
 
-                {/* <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
                     <h4 className="text-15 fw-500 ls-2 lh-16">Date</h4>
-                    <DateSearch />
+                    <DateSearch valueKey="airdate" />
                   </div>
-                </div> */}
+                </div>
 
-                <LocationSearch
+                {/* <LocationSearch
                   cName="DATE"
                   placeholder="Select Date"
                   valueKey="airdate"
                   value={values.airdate}
-                />
-                {/* <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                /> */}
+                <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
-                    <h4 className="text-15 fw-500 ls-2 lh-16"> Time </h4>
-                    <TimeSearch />
+                    {/* <h4 className="text-15 fw-500 ls-2 lh-16"> Time </h4> */}
+                    <TimeSearch cName="Time" valueKey="airtime" />
                   </div>
-                </div> */}
-                 <LocationSearch
+                </div>
+                {/* <LocationSearch
                   cName="Time"
                   placeholder="Select Time"
                   valueKey="airtime"
                   value={values.airtime}
-                />
+                /> */}
               </>
             )}
 
