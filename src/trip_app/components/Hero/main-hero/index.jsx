@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import MainFilterSearchBox from "./MainFilterSearchBox";
-import { useEffect } from "react";
 import { closeFullScreen } from "@/features/input-box/inputBoxSlice";
 import LocationSearch from "./LocationSearchActive";
 
@@ -9,9 +8,6 @@ const index = () => {
 
   const inputBoxState = useSelector((state) => state.inputBox);
 
-  useEffect(() => {
-    console.log("inputBoxState", inputBoxState);
-  }, [inputBoxState]);
   const handleClick = () => {
     dispatch(closeFullScreen());
   };

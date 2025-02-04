@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import TimeSearch from "../TimeSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { setInputSelectedValue } from "@/features/input-box/inputBoxSlice";
+import { encryptData } from "@/utils/cryptoJs";
 
 const MainFilterSearchBox = () => {
   const navigate = useNavigate();
@@ -47,19 +48,20 @@ const MainFilterSearchBox = () => {
   const inputBoxState = useSelector((state) => state.inputBox);
 
   const initialValues = {
+    aircity: "",
+    airdate: "",
+    airlocation: "",
+    airtime: "",
     from: "",
     to: "",
     sdate: "",
-    rdate: "",
-    airdate: "",
     stime: "",
-    airtime: "",
+    rdate: "",
   };
   const [values, setValues] = useState(initialValues);
   useEffect(() => {
     if (inputBoxState) {
       if (inputBoxState.value) {
-        debugger;
         setValues((prev) => ({
           ...prev,
           [inputBoxState?.valueKey]: inputBoxState?.value,
@@ -68,9 +70,40 @@ const MainFilterSearchBox = () => {
     }
   }, [inputBoxState]);
 
-  useEffect(() => {
-    console.log("values", values);
-  }, [values]);
+  const onSubmit = () => {
+    // navigate("/trip_app/car-list-v3");
+    let data = {};
+
+
+    if (currentTab == "OUTSTATION") {
+      data = {
+        from: values.from,
+        to: values.to,
+        sdate: values.sdate,
+        stime: values.stime,
+        subType: outStationCurrentTab,
+      };
+      if (outStationCurrentTab == "ROUNDWAY") {
+        data.rdate = values.rdate;
+      }
+    } else {
+      data = {
+        aircity: values.aircity,
+        airdate: values.airdate,
+        airlocation: values.airlocation,
+        airtime: values.airtime,
+        subType: airportCurrentTab,
+      };
+    }
+
+    data['type'] = currentTab;
+
+    const encrypted = encryptData(data);
+
+    navigate(`/trip_app/car-list-v3?data=${encodeURIComponent(encrypted)}`);
+
+    
+  };
 
   return (
     <>
@@ -136,7 +169,7 @@ const MainFilterSearchBox = () => {
                 <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
                     <h4 className="text-15 fw-500 ls-2 lh-16">Date</h4>
-                    <DateSearch valueKey="sdate" />
+                    <DateSearch valueKey="sdate" value={values.sdate} />
                   </div>
                 </div>
 
@@ -159,7 +192,7 @@ const MainFilterSearchBox = () => {
                   <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                     <div>
                       <h4 className="text-15 fw-500 ls-2 lh-16">Return Date</h4>
-                      <DateSearch valueKey="rdate" />
+                      <DateSearch valueKey="rdate" value={values.rdate} />
                     </div>
                   </div>
                 )}
@@ -202,7 +235,7 @@ const MainFilterSearchBox = () => {
                 <div className="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                   <div>
                     <h4 className="text-15 fw-500 ls-2 lh-16">Date</h4>
-                    <DateSearch valueKey="airdate" />
+                    <DateSearch valueKey="airdate" value={values.airdate} />
                   </div>
                 </div>
 
@@ -230,7 +263,7 @@ const MainFilterSearchBox = () => {
             <div className="button-item">
               <button
                 className="mainSearch__submit button -dark-1 py-15 px-35 h-60 col-12 rounded-4 bg-blue-1 text-white"
-                onClick={() => navigate("/trip_app/car-list-v3")}
+                onClick={onSubmit}
               >
                 <i className="icon-search text-20 mr-10" />
                 Search

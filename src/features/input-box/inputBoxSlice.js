@@ -17,9 +17,10 @@ export const inputBoxSlice = createSlice({
         ...payload,
       };
     },
-    closeFullScreen: () => {
+    closeFullScreen: (state) => {
       return {
         ...initialState,
+        isAirport: state.isAirport
       };
     },
     setInputSelectedValue: (state, { payload }) => {
