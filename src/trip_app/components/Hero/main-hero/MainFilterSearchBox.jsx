@@ -6,6 +6,7 @@ import TimeSearch from "../TimeSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { setInputSelectedValue } from "@/features/input-box/inputBoxSlice";
 import { encryptData } from "@/utils/cryptoJs";
+import { saveToLocalStorage } from "@/utils/storage";
 
 const MainFilterSearchBox = () => {
   const navigate = useNavigate();
@@ -71,9 +72,7 @@ const MainFilterSearchBox = () => {
   }, [inputBoxState]);
 
   const onSubmit = () => {
-    // navigate("/trip_app/car-list-v3");
     let data = {};
-
 
     if (currentTab == "OUTSTATION") {
       data = {
@@ -96,13 +95,13 @@ const MainFilterSearchBox = () => {
       };
     }
 
-    data['type'] = currentTab;
+    data["type"] = currentTab;
 
     const encrypted = encryptData(data);
 
-    navigate(`/trip_app/car-list-v3?data=${encodeURIComponent(encrypted)}`);
+    saveToLocalStorage("tripData", encrypted);
+    navigate("/trip_app/car-list-v3");
 
-    
   };
 
   return (

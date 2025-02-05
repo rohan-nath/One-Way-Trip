@@ -7,10 +7,8 @@ import DropdownSelelctBar from "@/components/car-list/common/DropdownSelelctBar"
 import MapPropertyFinder from "@/components/car-list/common/MapPropertyFinder";
 
 import MetaComponent from "@/components/common/MetaComponent";
-import { useLocation } from "react-router-dom";
 import { decryptData } from "@/utils/cryptoJs";
-
-
+import { getFromLocalStorage } from "@/utils/storage";
 
 const metadata = {
   title: "Car List v3 || GoTrip - Travel & Tour ReactJs Template",
@@ -18,16 +16,12 @@ const metadata = {
 };
 
 const CarListPage3 = () => {
+  const encryptedData = getFromLocalStorage("tripData");
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const encodedData = queryParams.get("data");
-
-  // Decode the encrypted data
-  const decryptedData = encodedData ? decryptData(decodeURIComponent(encodedData)) : null;
+  // Decrypt the data
+  const decryptedData = encryptedData ? decryptData(encryptedData) : null;
 
   console.log("Decrypted Data:", decryptedData);
-
 
   return (
     <>
