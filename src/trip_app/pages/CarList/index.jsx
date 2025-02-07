@@ -1,9 +1,11 @@
 import Header11 from "@/components/header/header-11";
-import { decryptData } from "@/utils/cryptoJs";
-import { getFromLocalStorage } from "@/utils/storage";
+import { decryptData, encryptData } from "@/utils/cryptoJs";
+import { getFromLocalStorage, saveToLocalStorage } from "@/utils/storage";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import FareSummary from "./FareSummary";
+import { carTypes } from "@/trip_app/data";
+import { extractStartTime } from "@/utils/otherFunctions";
 
 const CarListPage3 = () => {
   const encryptedData = getFromLocalStorage("tripData");
@@ -16,18 +18,6 @@ const CarListPage3 = () => {
   if (!data) {
     navigate("/trip_app");
   }
-
-  const carTypes = [
-    {
-      id: 1,
-      name: "HATCHBACK",
-      price: 6418,
-      cImg: "/img/activities/1.png",
-    },
-    { id: 2, name: "SEDAN", price: 7868, cImg: "/img/activities/2.png" },
-    { id: 3, name: "SUV", price: 8845, cImg: "/img/activities/3.png" },
-    { id: 4, name: "PREMIUM", price: 10838, cImg: "/img/activities/4.png" },
-  ];
 
   const [selectedCar, setSelectedCar] = useState(null);
   const handleCarSelection = (id) => {
@@ -43,8 +33,20 @@ const CarListPage3 = () => {
     }
   }, [carTypes, selectedCar]);
 
-  const gotToHome = () => {
-    navigate("/trip_app");
+  const gotToPath = (path) => {
+    navigate(path);
+  };
+
+  const handleSubmit = () => {
+    const data2 = {
+      ...data,
+      selectedCar,
+    };
+
+    const encrypted = encryptData(data2);
+
+    saveToLocalStorage("tripData", encrypted);
+    gotToPath("/trip_app/booking-details");
   };
   return (
     <>
@@ -115,7 +117,7 @@ const CarListPage3 = () => {
                   </div>
                 </div>
 
-                <button className="btn btn-success w-100">Select Cab</button>
+                
               </div> */}
               {selectedCar && (
                 <FareSummary
@@ -125,15 +127,21 @@ const CarListPage3 = () => {
                 />
               )}
             </div>
+            <button
+              className="btn btn-success w-100 mb-3"
+              onClick={handleSubmit}
+            >
+              Select Cab
+            </button>
 
             {data &&
               (data.type == "OUTSTATION" ? (
                 <div className="alert alert-info text-center small py-2">
                   {data.subType} Trip | From {data.from} To {data.to} | 400 Km |
-                  On {data.sdate} at {data?.stime.split(" - ")[0]}
+                  On {data.sdate} at {extractStartTime(data.stime)}
                   <button
                     className="btn text-white btn-success px-2 py-1 ms-2"
-                    onClick={gotToHome}
+                    onClick={() => gotToPath("/trip_app")}
                   >
                     modify
                   </button>
@@ -141,11 +149,10 @@ const CarListPage3 = () => {
               ) : (
                 <div className="alert alert-info text-center small py-2">
                   {data.type} Trip | From {data.aircity} To {data.airlocation} |
-                  387 Km | On
-                  {data.airdate} at {data?.airtime.split(" - ")[0]}
+                  387 Km | On {data.airdate} at {data?.airtime.split(" - ")[0]}
                   <button
                     className="btn text-white btn-success px-2 py-1 ms-2"
-                    onClick={gotToHome}
+                    onClick={() => gotToPath("/trip_app")}
                   >
                     modify
                   </button>

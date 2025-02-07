@@ -80,6 +80,10 @@ import Contact from "./pages/others/contact";
 import Destinations from "./pages/others/destinations";
 import TripApp from "./trip_app/pages/Home"
 import TripAppCarList from "./trip_app/pages/CarList";
+import BookingDetails from "./trip_app/pages/BookingDetails";
+import CabBooking from "./trip_app/pages/CabBooking";
+
+
 
 
 function App() {
@@ -111,6 +115,10 @@ function App() {
               <Route path="/trip_app">
                 <Route index element={<TripApp />} />
               <Route path="car-list-v3" element={<TripAppCarList />} />
+              <Route path="booking-details" element={<BookingDetails />} />
+              <Route path="cab-booking" element={<CabBooking />} />
+
+
               </Route>
 
               <Route path="blog-list-v1" element={<BlogListV1 />} />
